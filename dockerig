@@ -1,0 +1,7 @@
+node_modules/
+.env
+sparx_maths/tasks_temp/*
+!sparx_maths/tasks_temp/.gitkeep
+tasks.json
+sparx_science/tasks_temp/*
+!sparx_science/tasks_temp/.gitkeep

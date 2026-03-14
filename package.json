@@ -1,0 +1,35 @@
+{
+  "name": "sparx-discord-bot-js",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "SparxNow",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "@ffmpeg/core": "^0.12.10",
+    "@ffmpeg/ffmpeg": "^0.12.15",
+    "@google/genai": "^1.19.0",
+    "@supabase/supabase-js": "^2.56.0",
+    "axios": "^1.10.0",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.2.0",
+    "discord.js": "^14.20.0",
+    "dotenv": "^16.5.0",
+    "form-data": "^4.0.5",
+    "p-queue": "^6.6.2",
+    "playwright": "^1.55.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer": "^24.31.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "qs": "^6.14.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.2"
+  }
+}

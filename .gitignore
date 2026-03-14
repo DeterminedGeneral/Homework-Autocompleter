@@ -1,0 +1,17 @@
+node_modules/
+.env
+sparx_maths/tasks_temp/*
+!sparx_maths/tasks_temp/.gitkeep
+sparx_science/tasks_temp/*
+!sparx_science/tasks_temp/.gitkeep
+videos/*
+!videos/.gitkeep
+emojis_config.json
+tasks.json
+queue_ranks.json
+sparx_maths/images/*
+!sparx_maths/images/.gitkeep
+logs.txt
+logs/**/*
+!logs/**/.gitkeep
+config.json
