@@ -7,7 +7,6 @@ const path = require('node:path');
 const { Client, GatewayIntentBits, EmbedBuilder, Collection, ActionRowBuilder, ButtonBuilder } = require('discord.js');
 const { logError } = require('./utils/errorLogger.js');
 const { executeViewAccounts, saveAccount } = require('./handlers/savedAccountsHandler.js');
-const { handleFAQ } = require('./utils/faq.js');
 const { educake_collector, educake_model_executor } = require('./educake/main.js');
 const { seneca_collector, seneca_model_executor } = require('./seneca/main.js');
 const { drfrost_collector, drfrost_model_executor } = require('./drfrost/main.js');
@@ -530,12 +529,13 @@ client.on('interactionCreate', async (interaction) => {
     // Handle other button interactions here if needed
 
 });
-
+/*
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
 
     if (handleFAQ(message)) return;
 });
+*/
 
 client.on('messageCreate', async (message) => {
     await imageSolverHandler(message);
