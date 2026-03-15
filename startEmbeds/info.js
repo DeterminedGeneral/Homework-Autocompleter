@@ -2,10 +2,5 @@ const config = require('../config.json');
 const emojis = config.emojis;
 module.exports = {
     legalDisclamer: '\n> **LEGAL DISCLAMER**: SparxNow employs the use of human tutors to complete the tasks given to them by customers of SparxNow. No LLM (AI) is used throughout this process. No content or material from the homework platform is used for anything other than its permitted purpose. SparxNow is in compliance with all regulations and abides by all Terms of Service of this homework platform.',
-    emojis: emojis,
-    footerText: 'Do not login - SparxNow',
-    footerIcon: 'https://cdn3.emoji.gg/emojis/415550-exclamation.png'
+    emojis: emojis
 };
-
-
-   //  legalDisclamer: '\n> **LEGAL DISCLAMER**: SparxNow employs the use of human tutors to complete the tasks given to them by customers of SparxNow. No LLM (AI) is used throughout this process. No content or material from the homework platform is used for anything other than its permitted purpose. SparxNow is in compliance with all regulations and abides by all Terms of Service of this homework platform.',

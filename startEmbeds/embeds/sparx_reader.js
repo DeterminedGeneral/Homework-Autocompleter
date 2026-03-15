@@ -7,7 +7,7 @@ const seperator = new SeparatorBuilder({
 
 const section = new SectionBuilder()
 .addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`# Sparx Reader\nAutomate your Sparx Reader homework with high accuracy and zero detection by your teacher. Simply press \`Login\` and follow the instructions to be on your way to acing your Sparx Reader homework and never fearing of Sparx Reader again in your life!${info.legalDisclamer}\n## ✨ Features\n- ⏰ **Customisable Time** — Autocompletes your Sparx Reader homework in whatever time you want to balance speed and detection!\n- 🎯 **Very High Accuracy** — Excellent accuracy of >95% at completing questions!\n- 🧠 **Easy To Use** — Simple and intuitive to use with the press of only a few buttons!`)
+    new TextDisplayBuilder().setContent(`# Sparx Reader\nAutomate your Sparx Reader homework with high accuracy and zero detection by your teacher. Simply press \`Login\` and follow the instructions to be on your way to acing your Sparx Reader homework and never fearing of Sparx Reader again in your life!\n## ✨ Features\n- ⏰ **Customisable Time** — Autocompletes your Sparx Reader homework in whatever time you want to balance speed and detection!\n- 🎯 **Very High Accuracy** — Excellent accuracy of >95% at completing questions!\n- 🧠 **Easy To Use** — Simple and intuitive to use with the press of only a few buttons!`)
 )
 .setThumbnailAccessory(new ThumbnailBuilder({ media: { url: 'https://i.imgur.com/0H0TBp3.png' } }));
 // 2. Create the buttons and the action row

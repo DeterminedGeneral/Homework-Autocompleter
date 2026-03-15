@@ -7,7 +7,7 @@ const seperator = new SeparatorBuilder({
 
 const section = new SectionBuilder()
 .addTextDisplayComponents(
-    new TextDisplayBuilder().setContent(`# LanguageNut\nAutomate your Languagenut homework with 100% Accuracy and a simulated time to mimic real completion time!${info.legalDisclamer}\n## ✨ Features\n- ⏰ **Instant** — Instantly completed at the press of a button! \n- 🎯 **Customisable Accuracy** — Set your target accuracy score!\n- 🕵️‍♂️ **Simulated Time** — Simulate realistic completion time to mimic real effort!`)
+    new TextDisplayBuilder().setContent(`# LanguageNut\nAutomate your Languagenut homework with 100% Accuracy and a simulated time to mimic real completion time!\n## ✨ Features\n- ⏰ **Instant** — Instantly completed at the press of a button! \n- 🎯 **Customisable Accuracy** — Set your target accuracy score!\n- 🕵️‍♂️ **Simulated Time** — Simulate realistic completion time to mimic real effort!`)
 )
 .setThumbnailAccessory(new ThumbnailBuilder({ media: { url: 'https://i.postimg.cc/tRnhvy7v/languagenut-png.webp' } }));
 // 2. Create the buttons and the action row

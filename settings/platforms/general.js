@@ -6,11 +6,11 @@ const { updateDB } = require('../../database/accounts');
 function getContainer(data, disabled=false) {
 
     const welcomeMessage = `## General Settings\n`;
-    const pdfSettingsMessage = `\n\n**🔑 API Key**\nThe Gemini API Key used for the 'tutors'.\n`;
+    const pdfSettingsMessage = `\n\n**🔑 API Key**\nThe Gemini API Key used for the AI.\n`;
 
     const loginSuccessSection = new TextDisplayBuilder().setContent(`${welcomeMessage}${pdfSettingsMessage}`);
     const settingsSetup = new TextDisplayBuilder().setContent(`### Settings`);
-    const pdfSet = new TextDisplayBuilder().setContent(`**🔑 API Key **\`\`\`${data.apikey ?? 'None Configured. Using SparxNow\'s tutors'}\`\`\``);
+    const pdfSet = new TextDisplayBuilder().setContent(`**🔑 API Key **\`\`\`${data.apikey ?? 'None Configured. Using SparxNow\'s AI'}\`\`\``);
 
     const fakeTimeButton = new ButtonBuilder()
         .setCustomId('remove_apikey')

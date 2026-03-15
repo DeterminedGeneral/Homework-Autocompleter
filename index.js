@@ -8,7 +8,6 @@ const { Client, GatewayIntentBits, EmbedBuilder, Collection, ActionRowBuilder, B
 const { logError } = require('./utils/errorLogger.js');
 const { executeViewAccounts, saveAccount } = require('./handlers/savedAccountsHandler.js');
 const { handleFAQ } = require('./utils/faq.js');
-const { containsBlacklistedWord } = require('./utils/automod.js');
 const { educake_collector, educake_model_executor } = require('./educake/main.js');
 const { seneca_collector, seneca_model_executor } = require('./seneca/main.js');
 const { drfrost_collector, drfrost_model_executor } = require('./drfrost/main.js');
@@ -534,11 +533,6 @@ client.on('interactionCreate', async (interaction) => {
 
 client.on('messageCreate', async (message) => {
     if (message.author.bot) return;
-
-    if (containsBlacklistedWord(message.content)) {
-        await message.delete();
-        return;
-    }
 
     if (handleFAQ(message)) return;
 });
