@@ -44,8 +44,7 @@ async function sparxReaderAutocomplete(interaction, sparxReader, bookUid, points
     const initialEmbed = new EmbedBuilder()
         .setColor(0x4467C4)
         .setTitle('Sparx Reader Autocompleter')
-        .setDescription(`\`Starting Questions...\``)
-        .setFooter({ text: footerText, iconURL: footerIcon });
+        .setDescription(`\`Starting Questions...\``);
 
     const sectionsProgress = [[{
         name: `Progress (${points} SRP)`,

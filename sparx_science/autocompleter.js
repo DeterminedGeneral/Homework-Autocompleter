@@ -62,8 +62,7 @@ async function sparxScienceAutocomplete(interaction, packageID, sparxScience, fa
     const initialEmbed = new EmbedBuilder()
         .setColor('#1d9b8f')
         .setTitle('Sparx Science Autocompleter')
-        .setDescription(`\`Starting Questions...\``)
-        .setFooter({ text: footerText, iconURL: footerIcon });
+        .setDescription(`\`Starting Questions...\``);
 
     const getTimeField = function () {
         return `> **Time Spent**: ${formatTime((process.hrtime(taskTimer))[0])}`;
