@@ -1028,8 +1028,7 @@ class drfrostAutocompleter {
         const initialEmbed = new EmbedBuilder()
             .setColor(EMBED_COLOR)
             .setTitle('DrFrost Autocompleter')
-            .setDescription(`\`Starting Questions...\``)
-            .setFooter({ text: footerText, iconURL: footerIcon });
+            .setDescription(`\`Starting Questions...\``);
 
         const progressUpdater = new progressTracker(this.interaction, getTimeField);
 

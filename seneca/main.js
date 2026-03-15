@@ -181,8 +181,7 @@ class senecaAutocompleter {
         const initialEmbed = new EmbedBuilder()
             .setColor(EMBED_COLOR)
             .setTitle('Seneca Autocompleter')
-            .setDescription(`\`Starting Questions...\``)
-            .setFooter({ text: footerText, iconURL: footerIcon });
+            .setDescription(`\`Starting Questions...\``);
 
         const taskInfos = [];
         const sectionsProgress = [];

@@ -581,8 +581,7 @@ class client_application {
         const initialEmbed = new EmbedBuilder()
             .setColor(EMBED_COLOR)
             .setTitle('LanguageNut Autocompleter')
-            .setDescription(`\`Starting Questions...\``)
-            .setFooter({ text: footerText, iconURL: footerIcon });
+            .setDescription(`\`Starting Questions...\``);
 
         const taskTimer = process.hrtime();
         let fakeTimeTotal = 0;

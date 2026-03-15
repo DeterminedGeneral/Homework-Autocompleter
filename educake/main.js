@@ -42,8 +42,7 @@ async function educake_autocompleter(interaction, userSession, retake, timeSetti
     const initialEmbed = new EmbedBuilder()
         .setColor(EMBED_COLOR)
         .setTitle('Educake Autocompleter')
-        .setDescription(`\`Starting...\``)
-        .setFooter({ text: footerText, iconURL: footerIcon });
+        .setDescription(`\`Starting...\``);
 
     const sectionsProgress = [];
     let currentGroup = [];

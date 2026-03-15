@@ -22,8 +22,7 @@ async function cookieMenuCall(interaction, sparxClass) {
         .setColor(0xFFAC1C)
         .setTitle('Cookie Maintenance')
         .setDescription('It is recommended to update the cookie every 5 minutes to not get deauthed by Sparx mid-session, do this even if in the queue!')
-        .addFields({ name: 'Last Updated', value: `<t:${Math.floor(Date.now() / 1000)}:R>` })
-        .setFooter({ text: footerText, iconURL: footerIcon });
+        .addFields({ name: 'Last Updated', value: `<t:${Math.floor(Date.now() / 1000)}:R>` });
 
     const updateCookieButton = new ButtonBuilder()
         .setCustomId('updateCookie')
