@@ -312,8 +312,7 @@ async function sparxMathsAutocomplete(interaction, packageID, sparxMaths, fakeTi
     const initialEmbed = new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle('Sparx Maths Autocompleter')
-        .setDescription(`\`Starting Questions...\``)
-        .setFooter({ text: footerText, iconURL: footerIcon });
+        .setDescription(`\`Starting Questions...\``);
 
     // const packageID = interaction.values[0];
     const wantWorkingOut = fakeTime.pdfSettings.working_out;
