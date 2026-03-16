@@ -5,6 +5,7 @@ const config = require('../config.json');
 const queueRanksPositions = config.queue_ranks;
 const emojis = config.emojis; const hash = require('../utils/hash');
 const hashCompare = require('../utils/hashCompare');
+const { name } = require('../config.json');
 
 async function useUpSlot(interaction, platform, accountId, alias) {
     if (!alias) alias = platform;
@@ -61,7 +62,7 @@ async function validAccount(interaction, platform) {
     const userRole = Object.keys(queueRanksPositions).find(key => queueRanksPositions[key] === roleID) ?? null;
     const account = await checkAccount(interaction.user.id, userRole);
     if (!account) {
-        const section = new TextDisplayBuilder().setContent(`# No Account Found\nYou do not have a SparxNow Account. Please create one by doing \`/account\` and then configuring the main account for this platform.`);
+        const section = new TextDisplayBuilder().setContent(`# No Account Found\nYou do not have a ${name} Account. Please create one by doing \`/account\` and then configuring the main account for this platform.`);
 
         const container = new ContainerBuilder()
             .setAccentColor(0xFF474D)
@@ -118,7 +119,7 @@ async function createAccount(interaction) {
     const accountCreated = await addToDb(userId, await hash(master_password), userRole);
 
     if (!accountCreated) {
-        const section = new TextDisplayBuilder().setContent(`# Account already Exists\nYou already have a SparxNow account.`);
+        const section = new TextDisplayBuilder().setContent(`# Account already Exists\nYou already have a ${name} account.`);
 
         const container = new ContainerBuilder()
             .setAccentColor(0xFF474D)
@@ -133,7 +134,7 @@ async function createAccount(interaction) {
         return;
     }
 
-    const section = new TextDisplayBuilder().setContent(`# Account Created\nYour SparxNow account has been successfully created!`);
+    const section = new TextDisplayBuilder().setContent(`# Account Created\nYour ${name} account has been successfully created!`);
 
     const container = new ContainerBuilder()
         .setAccentColor(0x90EE90)

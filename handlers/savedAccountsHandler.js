@@ -8,6 +8,7 @@ const { languagenut_model_executor } = require('../languagenut/main');
 const { educake_model_executor } = require('../educake/main');
 const { seneca_model_executor } = require('../seneca/main');
 const { drfrost_model_executor } = require('../drfrost/main');
+const { name } = require('../config.json');
 
 async function handleSavedAccounts(interaction, action, sparx) {
 
@@ -284,7 +285,7 @@ async function saveAccount(interaction) {
     if (sparxList.includes(loginsSavedTempAccount[interaction.user.id].app)) loginsSavedTempAccount[interaction.user.id].app = 'sparx';
     await addAccount(interaction.user.id, loginsSavedTempAccount[interaction.user.id], master_password);
 
-    const section = new TextDisplayBuilder().setContent(`# Account Saved\nYour account has been saved to SparxNow!`);
+    const section = new TextDisplayBuilder().setContent(`# Account Saved\nYour account has been saved to ${name}!`);
 
     const container = new ContainerBuilder()
         .setAccentColor(0x90EE90)

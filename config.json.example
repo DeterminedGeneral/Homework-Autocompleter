@@ -71,5 +71,6 @@
         "1": "2.5-pro",
         "2": ""
     },
-    "require_mainaccounts": true
+    "require_mainaccounts": true,
+    "name": "ChurroAI"
 }

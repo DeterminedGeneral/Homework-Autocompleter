@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const getProgressBar = require('./getProgressBar');
+const { name } = require('../config.json');
 
 class progressTracker {
     constructor(interaction, getTimeField) {
@@ -102,7 +103,7 @@ class progressTracker {
                 .setDescription('The autocompleter is unable to direct message you the progress tracker because your discord settings prevent this. You have been kicked out of the queue and the autocompleter has cancelled your task.')
                 .addFields({
                     name: 'How do I fix this issue?',
-                    value: 'Please go to `Settings -> Content & Social -> Social Permissions -> \'SparxNow\' -> Direct Messages ✅`'
+                    value: `Please go to \`Settings -> Content & Social -> Social Permissions -> \'${name}\' -> Direct Messages ✅\``
                 })
                 .setColor(0xFF474D)
                 .setImage('https://i.postimg.cc/5NkYDpYD/Screenshot-2025-10-17-203707.png');

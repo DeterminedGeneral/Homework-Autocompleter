@@ -19,6 +19,7 @@ const { handleApiKeyRequest } = require('./handlers/apikeyHandler.js');
 const config = require('./config.json');
 const imageSolverHandler = require('./imageSolver.js');
 const util = require('util');
+const { name } = require('./config.json');
 
 // Ensure the file exists
 if (!fs.existsSync('logs.txt')) {
@@ -493,7 +494,7 @@ client.on('interactionCreate', async (interaction) => {
                 .setColor(0x2ECC71)
                 .setTitle('Bug Resolved!')
                 .setDescription("Thank you for your bug report! Our team has investigated and we're happy to let you know that the issue has been fixed.\nYou can now try again. If you run into any other problems, please let us know again.")
-                .setFooter({ text: "Thanks for making SparxNow better!" });
+                .setFooter({ text: `Thanks for making ${name} better!` });
 
             try {
                 const user = await client.users.fetch(userId);

@@ -4,6 +4,7 @@ const clientId = process.env.CLIENT_ID;
 const token = process.env.DISCORD_TOKEN;
 const fs = require('node:fs');
 const path = require('node:path');
+const { name } = require('./config.json');
 
 const commands = [];
 // const commandsAdmin = [];
@@ -40,7 +41,7 @@ const rest = new REST().setToken(token);
 // and deploy your commands!
 (async () => {
     try {
-        console.log('🗑️ SparxNow: Performing aggressive command cleanup...');
+        console.log(`🗑️ ${name}: Performing aggressive command cleanup...`);
         
         // Clear global commands
         console.log('🌐 Clearing global commands...');
@@ -72,13 +73,13 @@ const rest = new REST().setToken(token);
             console.log('⚠️ Could not fetch guild list, skipping guild command cleanup');
         }
         
-        console.log('✅ SparxNow: Command cleanup completed!');
+        console.log(`✅ ${name}: Command cleanup completed!`);
         
         // Wait longer for Discord to process all deletions
         console.log('⏳ Waiting for Discord to process deletions...');
         await new Promise(resolve => setTimeout(resolve, 5000));
         
-        console.log('🔄 SparxNow: Deploying fresh global command set...');
+        console.log(`🔄 ${name}: Deploying fresh global command set...`);
 
         // Deploy the fresh command set globally
         await rest.put(
@@ -86,7 +87,7 @@ const rest = new REST().setToken(token);
             { body: commands },
         );
 
-        console.log('✅ SparxNow: Successfully deployed fresh command set!');
+        console.log(`✅ ${name}: Successfully deployed fresh command set!`);
         console.log(`📋 Commands deployed: ${commands.length}`);
         commands.forEach(cmd => {
             console.log(`   - /${cmd.name}: ${cmd.description}`);

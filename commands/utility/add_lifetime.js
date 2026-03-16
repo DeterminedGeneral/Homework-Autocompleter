@@ -39,7 +39,7 @@ module.exports = {
         const account = await checkAccount(user.id);
         if (!account) {
             return interaction.reply({
-                content: "``❌`` User does not have a SparxNow account.",
+                content: "``❌`` User does not have an account.",
                 ephemeral: true
             });
         }

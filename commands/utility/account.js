@@ -6,11 +6,12 @@ const emojis = config.emojis;
 const whatRole = require('../../utils/whatRole');
 const formatTime = require('../../utils/formatTime');
 const { handleSettings } = require('../../settings/router');
+const { name } = require('../../config.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('account')
-        .setDescription('View your SparxNow Account'),
+        .setDescription(`View your ${name} Account`),
     public: true,
     async execute(interaction) {
         const seperator = new SeparatorBuilder({
@@ -368,7 +369,7 @@ module.exports = {
                         } catch (error) {
                             console.error(error);
                         }
-                        const section = new TextDisplayBuilder().setContent(`### Free Trial Activated\nYour 3-day Free Trial for SparxNow has been successfully activated!`);
+                        const section = new TextDisplayBuilder().setContent(`### Free Trial Activated\nYour 3-day Free Trial for ${name} has been successfully activated!`);
 
                         const container = new ContainerBuilder()
                             .setAccentColor(0x90EE90)
@@ -398,7 +399,7 @@ module.exports = {
             });
         } else {
 
-            const section = new TextDisplayBuilder().setContent(`## Create an Account\nBy creating an account, you agree to the Terms of Service of SparxNow which can be found at https://discord.com/channels/1351338824759906345/1446936637627043932`);
+            const section = new TextDisplayBuilder().setContent(`## Create an Account\nBy creating an account, you agree to the Terms of Service of ${name} which can be found at https://discord.com/channels/1351338824759906345/1446936637627043932`);
 
             const statsBtn = new ButtonBuilder()
                 .setCustomId('agree')

@@ -10,7 +10,7 @@ function getContainer(data, disabled=false) {
 
     const loginSuccessSection = new TextDisplayBuilder().setContent(`${welcomeMessage}${pdfSettingsMessage}`);
     const settingsSetup = new TextDisplayBuilder().setContent(`### Settings`);
-    const pdfSet = new TextDisplayBuilder().setContent(`**🔑 API Key **\`\`\`${data.apikey ?? 'None Configured. Using SparxNow\'s AI'}\`\`\``);
+    const pdfSet = new TextDisplayBuilder().setContent(`**🔑 API Key **\`\`\`${data.apikey ?? 'None Configured. Using Global AI'}\`\`\``);
 
     const fakeTimeButton = new ButtonBuilder()
         .setCustomId('remove_apikey')
