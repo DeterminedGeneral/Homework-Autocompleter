@@ -10,7 +10,7 @@ const { name } = require('../config.json');
 async function useUpSlot(interaction, platform, accountId, alias) {
     if (!alias) alias = platform;
     const account = await checkAccount(interaction.user.id);
-    if (await hashCompare(accountId, account.main_accounts[alias])) {
+    if (config.require_mainaccounts && await hashCompare(accountId, account.main_accounts[alias])) {
         console.log('Main account detected, not using an account slot');
         if (!account.used_main_account) {
             console.log('Add total use for main account');
