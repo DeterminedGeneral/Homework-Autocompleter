@@ -264,7 +264,7 @@ function getQuestionObject(aiAnswered, activityName, token) {
     return answerObject;
 }
 
-async function parser(apikey, data, model, activityName, token, supportMaterial) {
+async function parser(apikey, data, model, activityName, token, supportMaterial, incorrect_answers) {
     const parsedData = parseQuestion(data);
 
     const { geminiAnswer, geminiAnswers } = require('../gemini/sparx_maths/main');
@@ -274,7 +274,7 @@ async function parser(apikey, data, model, activityName, token, supportMaterial)
         newClass.ai = new GoogleGenAI({ apiKey: apikey });
         gemAns = newClass;
     }
-    const aiAnswered = await gemAns.answerQuestion(parsedData, model, "science", supportMaterial);
+    const aiAnswered = await gemAns.answerQuestion(parsedData, model, incorrect_answers, "science", supportMaterial);
 
     if (typeof aiAnswered === 'number') return aiAnswered;
 

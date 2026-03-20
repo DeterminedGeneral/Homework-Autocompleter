@@ -59,7 +59,46 @@ async function addWorkingOut(question, working_out) {
     
 }
 
+async function getFailedQuestion(question) {
+    console.log('!!! GET FAILED QUESTION', question);
+    const { data } = await supabase
+        .from('sparx_maths_failed')
+        .select('*')      // select all columns
+        .eq('question', question)      // filter where id = 1
+        .single();        // get a single row instead of an array
+
+    if (data) {
+        console.log("Answer exists", data);
+        return data;
+    } else {
+        console.log("Row is not present!");
+        return null;
+    }
+    
+}
+
+async function addFailedQuestion(question, incorrect_answers, ai_model) {
+    const { error } = await supabase
+    .from('sparx_maths_failed')
+    .insert([
+        { question: question, incorrect_answers: incorrect_answers, ai_model},
+    ]);
+
+    console.log(error);
+    console.log("Added to Maths DB");
+}
+
+async function updateFailedQuestions(question, incorrect_answers) {
+    const { error } = await supabase
+    .from('sparx_maths_failed')
+    .update({ incorrect_answers })
+    .eq('question', question);
+
+    console.log("DB updated for failed maths");
+    console.log(error);
+}
+
 // addToDb("1+1", ["2"]);
 // checkAnswer('12')
 
-module.exports = { addToDb, checkAnswer, getWorkingOut, addWorkingOut};
+module.exports = { addToDb, checkAnswer, getWorkingOut, addWorkingOut, getFailedQuestion, addFailedQuestion, updateFailedQuestions };

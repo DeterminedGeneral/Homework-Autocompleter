@@ -14,7 +14,7 @@ class geminiAnswers {
         this.requesticator = new Image_Requesticator();
     }
 
-    async answerQuestion(questionObj, model, sparx="maths", supportMaterial) {
+    async answerQuestion(questionObj, model, incorrect_answers, sparx="maths", supportMaterial) {
 
         try {
 
@@ -46,6 +46,17 @@ class geminiAnswers {
             totalText += `Support Material: ${supportMaterial}`;
             systemInstruction = 'PLEASE USE THE SUPPORT MATERIAL;';
         }
+
+        // add incorrect answers to the question
+        if (incorrect_answers) {
+            totalText += `NOTE: Another AI Model tried to answer the question and these were its INCORRECT answers:`;
+            for (const answer of incorrect_answers) {
+                totalText += `\n - ${answer}`;
+            }
+        }
+
+        console.log('!!!!! TOTAL TEXT', totalText);
+
         contents.push({ text: totalText });
 
         const properties = {};

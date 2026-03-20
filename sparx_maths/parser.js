@@ -278,7 +278,7 @@ function parseBookwork(activityIndex, parsedBookworkAnswer, interaction) {
     // console.log(parsedBookwork);
 }
 
-async function parser(apikey, data, activityIndex, questionIndex, model, interaction) {
+async function parser(apikey, data, activityIndex, questionIndex, model, interaction, incorrect_answers) {
     const parsedData = parseQuestion(data);
 
     const { geminiAnswer, geminiAnswers } = require('../gemini/sparx_maths/main');
@@ -289,7 +289,7 @@ async function parser(apikey, data, activityIndex, questionIndex, model, interac
         newClass.ai = new GoogleGenAI({ apiKey: apikey });
         gemAns = newClass;
     }
-    const aiAnswered = await gemAns.answerQuestion(parsedData, model);
+    const aiAnswered = await gemAns.answerQuestion(parsedData, model, incorrect_answers);
     console.log(aiAnswered);
 
     if (typeof aiAnswered === 'number') return aiAnswered;

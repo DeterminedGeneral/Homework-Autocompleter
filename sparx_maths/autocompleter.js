@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { parser, parseBookwork, parseBookworkData, parseQuestion } = require('./parser');
 const { getBookworks, addToDbBookwork } = require('../database/bookwork.js');
-const { addToDb, checkAnswer, getWorkingOut, addWorkingOut } = require('../database/maths.js');
+const { addToDb, checkAnswer, getWorkingOut, addWorkingOut, getFailedQuestion, addFailedQuestion, updateFailedQuestions } = require('../database/maths.js');
 const { getBookworkCheckAnswer } = require('./bookwork.js');
 const { convertToPDF } = require('./latexPDF.js');
 const { logError } = require('../utils/errorLogger.js');
@@ -18,6 +18,7 @@ const userAutocompleters = {};
 const { ai } = require('../config.json');
 const convertAItoObject = require('../utils/convertAItoObject.js');
 const { checkAccount } = require('../database/accounts.js');
+const isHigherModel = require('../utils/isHighestModel.js');
 
 function stripWorkingOut(obj) {
     const result = {};
@@ -486,7 +487,7 @@ async function sparxMathsAutocomplete(interaction, packageID, sparxMaths, fakeTi
                     const item = await sparxMaths.getActivity(sparxMathsExecuter.getTimestamp(), packageID, task.taskIndex, index); // NEED TO GET ACTIVITY INDEX RIGHT, same as questionIndex I think. or its actually the increment by one
                     if (item === 'break') return 'break';
                     if (await completeBookwork(item)) return 'continue';
-                    const model = ai[attempts-1];
+                    let model = ai[attempts-1];
                     if (!model && attempts > 1) return 'blank';
                     const activityIndex = item.activityIndex; // Fuck everything I said on the previous comment, I have no clue
                     const questionIndex = item.payload.question.questionIndex;
@@ -505,22 +506,52 @@ async function sparxMathsAutocomplete(interaction, packageID, sparxMaths, fakeTi
 
                     await sparxMathsExecuter.readyQuestion(questionIndex, activityIndex);
 
+                    let shouldTry = true;
                     let workingOut;
                     let questionObjectSend = await checkDB(item.payload.question.questionSpec, activityIndex, questionIndex, interaction);
+                    let failedQuestion = null;
                     if (questionObjectSend) {
                         workingOut = await getWorkingOut(item.payload.question.questionSpec);
+                    } else {
+                        failedQuestion = await getFailedQuestion(JSON.stringify(item.payload.question.questionSpec));
+                        log.logToFile('Failed question', failedQuestion);
+                        if (failedQuestion) {
+                            console.log('Failed question', failedQuestion);
+                            let nextBetterModel = null;
+
+                            console.log('Ai', ai);
+                            for (const item of Object.values(ai)) {
+                                if (!item) break;
+                                const model = `gemini-${item}`;
+                                console.log('Trying item', model);
+
+                                if (isHigherModel(model, failedQuestion.ai_model)) {
+                                    nextBetterModel = item;
+                                    break;
+                                }
+                            }
+
+                            console.log('Ai model to try', nextBetterModel);
+                            if (!nextBetterModel) shouldTry = false;
+                            if (nextBetterModel) model = nextBetterModel;
+                        }
                     }
+
                     let alreadyInDB = true;
+                    if (!shouldTry) {
+                        return 'blank';
+                    }
 
                     console.log(`No ai check:`, !questionObjectSend && !ai[0]);
-                    if (!questionObjectSend && !ai[0]) {
+                    if (!questionObjectSend && !ai[0] && shouldTry) {
                         return 'blank';
                     }
 
                     if (!questionObjectSend || (!workingOut && wantWorkingOut && ai[0])) {
                         alreadyInDB = false;
+                        log.logToFile('Using AI Model', model);
                         questionObjectSend = await getAIanswer(
-                            () => parser(apikey, questionLayout[0], activityIndex, questionIndex, model, interaction),
+                            () => parser(apikey, questionLayout[0], activityIndex, questionIndex, model, interaction, failedQuestion?.incorrect_answers),
                             queueMaths,
                             interaction,
                             progressUpdater,
@@ -550,13 +581,23 @@ async function sparxMathsAutocomplete(interaction, packageID, sparxMaths, fakeTi
                             await addWorkingOut(item.payload.question.questionSpec, workingOut);
                         }
                     }
-                    if (!questionSuccess && attempts < 3) {
-                        if (attempts === 1) {
-                            if (await progressUpdater.updateEmbed(`Retrying Question ${index} at Task ${task.taskIndex}...`)) return 'break';
-                        } else if (attempts === 2) {
-                            if (await progressUpdater.updateEmbed(`Retrying Question ${index} at Task ${task.taskIndex} Again...`)) return 'break';
+                    if (!questionSuccess) {
+                        console.log('Question failed');
+                        if (!failedQuestion) {
+                            await addFailedQuestion(JSON.stringify(item.payload.question.questionSpec), [questionObjectSend.action.question.answer.components], model);
+                        } else {
+                            failedQuestion.incorrect_answers.push(questionObjectSend.action.question.answer.components);
+                            await updateFailedQuestions(item.payload.question.questionSpec, failedQuestion.incorrect_answers);
+                            console.log('Updated failed questions');
                         }
-                        return await attemptQuestion(attempts + 1);
+                        if (attempts < 3) {
+                            if (attempts === 1) {
+                                if (await progressUpdater.updateEmbed(`Retrying Question ${index} at Task ${task.taskIndex}...`)) return 'break';
+                            } else if (attempts === 2) {
+                                if (await progressUpdater.updateEmbed(`Retrying Question ${index} at Task ${task.taskIndex} Again...`)) return 'break';
+                            }
+                            return await attemptQuestion(attempts + 1);
+                        }
                     }
                 }
 

@@ -4,7 +4,7 @@ const fakeTimeSetting = {};
 const { parser, getQuestionObject } = require('./parser');
 const path = require('path');
 const fs = require('fs');
-const { addToDb, checkAnswer, deleteAnswer } = require('../database/science.js');
+const { addToDb, checkAnswer, deleteAnswer, getFailedQuestion, addFailedQuestion, updateFailedQuestions } = require('../database/science.js');
 const { logError } = require('../utils/errorLogger.js');
 const progressTracker = require('../utils/progressTracker.js');
 const formatTime = require('../utils/formatTime');
@@ -15,6 +15,7 @@ const { updateStats } = require('../database/accounts.js');
 const { ai } = require('../config.json');
 const { checkAccount } = require('../database/accounts.js');
 const convertAItoObject = require('../utils/convertAItoObject.js');
+const isHigherModel = require('../utils/isHighestModel.js');
 
 class sparxScienceAutocompleter {
     constructor(sparxScience, interaction) {
@@ -217,11 +218,43 @@ async function sparxScienceAutocomplete(interaction, packageID, sparxScience, fa
                         break;
                     }
 
+                    let failedQuestion = null;
+                    let shouldTry = true;
                     if (!aiAnswered) {
-                        log.logToFile(questionLayout.length);
+                        failedQuestion = await getFailedQuestion(JSON.stringify(questionLayout));
+
+                        log.logToFile('Failed question', failedQuestion);
+                        if (failedQuestion) {
+                            console.log('Failed question', failedQuestion);
+                            let nextBetterModel = null;
+
+                            console.log('Ai', ai);
+                            for (const item of Object.values(ai)) {
+                                if (!item) break;
+                                const model = `gemini-${item}`;
+                                console.log('Trying item', model);
+
+                                if (isHigherModel(model, failedQuestion.ai_model)) {
+                                    nextBetterModel = item;
+                                    break;
+                                }
+                            }
+
+                            console.log('Ai model to try', nextBetterModel);
+                            if (!nextBetterModel) shouldTry = false;
+                            if (nextBetterModel) aiModel = nextBetterModel;
+                        }
+                    }
+
+                    if (!shouldTry) {
+                        break;
+                    }
+
+                    if (!aiAnswered) {
+                        log.logToFile('Trying to run AI Model', aiModel);
 
                         aiAnswered = await getAIanswer(
-                            () => parser(apikey, questionLayout[questionLayout.length - 1], aiModel, activityName, token, supportMaterial),
+                            () => parser(apikey, questionLayout[questionLayout.length - 1], aiModel, activityName, token, supportMaterial, failedQuestion?.incorrect_answers),
                             queueScience,
                             interaction,
                             progressUpdater,
@@ -297,6 +330,13 @@ async function sparxScienceAutocomplete(interaction, packageID, sparxScience, fa
                         timesIncorrect = 0;
                         aiModel = ai[0];
                     } else {
+                        if (!failedQuestion) {
+                            await addFailedQuestion(JSON.stringify(questionLayout), [aiAnswered.action.answer.components], aiModel);
+                        } else {
+                            failedQuestion.incorrect_answers.push(aiAnswered.action.answer.components);
+                            await updateFailedQuestions(questionLayout, failedQuestion.incorrect_answers);
+                            console.log('Updated failed questions');
+                        }
                         timesIncorrect += 1;
                         aiModel = ai[1];
                         if (!aiModel) {
