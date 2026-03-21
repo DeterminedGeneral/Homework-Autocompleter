@@ -10,9 +10,6 @@
         "booster": 3,
         "free-trial": 0
     },
-    "roles": {
-        "lifetime": ""
-    },
     "queue_ranks": {
         "developer": "",
         "staff": "",
@@ -65,11 +62,6 @@
         "sparx": "id",
         "google": "id",
         "microsoft": "id"
-    },
-    "ai": {
-        "0": "2.5-flash",
-        "1": "2.5-pro",
-        "2": ""
     },
     "require_mainaccounts": true,
     "name": "ChurroAI"
